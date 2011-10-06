@@ -3,5 +3,5 @@
 #apps
   - apps.each do |app|
     .app
-      .app_title= app.name
+      %a{:href => "apps/#{app.slug}"}= app.name
       .app_desc= app.description
