@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '../8hourapp')  # <-- your sinatra app
+require File.join(File.dirname(__FILE__), '..', '8hourapp')  # <-- your sinatra app
 require 'rspec'
 require 'rack/test'
 
@@ -9,12 +9,19 @@ describe '8hourapp App' do
 
   def app
     Sinatra::Application
+  end  
+  
+  class AppService
+    def AppService.apps
+      [App.new('app1', 'desc1'),App.new('app2', 'desc2') ]
+    end
   end
-
-  it "should load main layout" do
+  
+  it "root should load main layout and home" do
     get '/'
     last_response.should be_ok
-    puts last_response.body
-    last_response.body.should include("<html>")
+    last_response.body.should include("app1", "desc1", "app2", "desc2")
   end
+
+  it "should link to app slug"
 end
