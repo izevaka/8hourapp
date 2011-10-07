@@ -3,6 +3,7 @@ require 'rspec'
 require 'rack/test'
 
 set :environment, :test
+set :run, false
 
 describe '8hourapp App' do
   include Rack::Test::Methods
@@ -11,7 +12,7 @@ describe '8hourapp App' do
     Sinatra::Application
   end  
  
-  $appservice.apps = [
+  $appservice = AppService.new [
     App.new('app1', 'desc1', 'app1', "
 ### Markdown heading
 This is body of a markdown file      

@@ -4,13 +4,18 @@ require 'haml'
 require 'redcarpet'
 require File.join(File.dirname(__FILE__), "app", "app_service")
 
-$appservice = AppService.new
+def appservice
+  if !$appservice
+    $appservice = AppService.load_from_file 'data'
+  end
+  $appservice
+end
 
 get '/' do
-  haml :home, :locals =>{ :apps => $appservice.apps }, :format => :html5
+  haml :home, :locals =>{ :apps => appservice.apps }, :format => :html5
 end
 
 get '/apps/:slug' do |slug|
-  app = $appservice.get(slug)
+  app = appservice.get(slug)
   haml :app, :locals => {:app => app}, :format => :html5
 end
