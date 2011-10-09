@@ -21,7 +21,12 @@ class AppService
     apps_file = YAML.load_file app_file("#{root_dir}/meta/apps.yaml")
     apps_file["apps"].each do |slug, value|
       app_dir = app_file("#{root_dir}/repos/#{slug}")
-      apps.push load_app_from_dir(app_dir, slug)
+      if File.directory? app_dir
+        app = load_app_from_dir(app_dir, slug)
+        if app
+          apps.push app
+        end
+      end
     end
     
     AppService.new apps 
@@ -29,11 +34,25 @@ class AppService
 
 private
   def AppService.load_app_from_dir(dir, slug)
-    app_yaml = YAML.load_file File.join(dir, 'app.yaml')
-    name = app_yaml["app"]["name"]
-    description = File.read File.join(dir, 'description.md')
-    body = File.read File.join(dir, 'body.md')
-    App.new(name, description, slug, body)
+    app_yaml_file = File.join(dir, 'app.yaml')
+    if File.file? app_yaml_file
+      app_yaml = YAML.load_file app_yaml_file
+      name = app_yaml["app"]["name"]
+      
+      desc_file = File.join(dir, 'description.md')
+      description = nil
+      if File.file? desc_file
+        description = File.read desc_file
+      end
+
+      body_file = File.join(dir, 'body.md')
+      body = nil
+      if File.file? body_file
+        body = File.read body_file 
+      end
+      
+      App.new(name, description, slug, body)
+    end
   end
 
 end

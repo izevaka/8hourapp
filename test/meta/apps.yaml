@@ -5,4 +5,12 @@ apps:
   app2:
     repo: /path_to_repo
     email: izevaka@gmail.com
-
+  app3:
+    repo: non-existant repo
+    email: foo@bar.baz
+  no_app_yaml:
+    repo: sdfsdfs
+    email: sdfsdf
+  app_no_files:
+    repo: sdfsdfs
+    email: sdfsdf

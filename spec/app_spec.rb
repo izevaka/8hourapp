@@ -17,17 +17,25 @@ describe AppService do
     app_service = AppService.load_from_file 'test'
     
     it 'should contain two apps from the file' do
-      app_service.apps[0].slug.should == "app1"
+      app_service.get("app1").slug.should == "app1"
     end
 
     it 'should load names from app.yaml' do
-      app_service.apps[0].name.should == 'Rates Tracker'
+      app_service.get("app1").name.should == 'Rates Tracker'
     end
     it 'should load description from description.md' do
-      app_service.apps[0].description.should == "Allows you to track rates.\n"
+      app_service.get("app1").description.should == "Allows you to track rates.\n"
     end
     it 'should load body from body.md' do
-      app_service.apps[0].body.should == "Allows you to track rates.\nFull description\n"
+      app_service.get("app1").body.should == "Allows you to track rates.\nFull description\n"
+    end
+    it 'should not show app if the app dir is not around' do
+      app_service.apps.length.should == 3
+    end
+    it 'should load the app with no description and body' do
+      app_service.get("app_no_files").name.should == 'No app files'
+      app_service.get("app_no_files").description.should be_nil
+      app_service.get("app_no_files").body.should be_nil
     end
   end
 end
