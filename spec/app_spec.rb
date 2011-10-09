@@ -1,7 +1,14 @@
 require 'rspec'
-require File.join(File.dirname(__FILE__), '..', 'app_service') 
+$this_dir = File.dirname(__FILE__)
+require File.join($this_dir, '..', 'app_service') 
+require 'fileutils'
 
 describe AppService do
+  if File.directory?(File.join($this_dir, '../test/data'))
+    FileUtils.rm_r File.join($this_dir, '../test/data')
+  end
+  FileUtils.cp_r File.join($this_dir, '../test/app_service_data'), File.join($this_dir, '../test/data')
+  
   context 'With own data' do
     app_service = AppService.new [App.new('first', 'first'), App.new('second', 'second')] 
     it 'apps should be non empty' do
@@ -14,7 +21,7 @@ describe AppService do
     end
   end
   context 'With loading file data' do
-    app_service = AppService.load_from_file 'test'
+    app_service = AppService.load_from_file 'test/data'
     
     it 'should contain two apps from the file' do
       app_service.get("app1").slug.should == "app1"
