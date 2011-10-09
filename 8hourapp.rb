@@ -2,7 +2,8 @@
 require 'sinatra'
 require 'haml'
 require 'redcarpet'
-require File.join(File.dirname(__FILE__), "app", "app_service")
+require File.join(File.dirname(__FILE__), "helper")
+require 'app_service'
 
 def appservice
   if !$appservice

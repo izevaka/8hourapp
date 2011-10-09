@@ -1,5 +1,5 @@
 require 'rspec'
-require File.join(File.dirname(__FILE__), '..', 'app', 'app_service') 
+require File.join(File.dirname(__FILE__), '..', 'app_service') 
 
 describe AppService do
   context 'With own data' do
@@ -22,6 +22,12 @@ describe AppService do
 
     it 'should load names from app.yaml' do
       app_service.apps[0].name.should == 'Rates Tracker'
+    end
+    it 'should load description from description.md' do
+      app_service.apps[0].description.should == "Allows you to track rates.\n"
+    end
+    it 'should load body from body.md' do
+      app_service.apps[0].body.should == "Allows you to track rates.\nFull description\n"
     end
   end
 end
