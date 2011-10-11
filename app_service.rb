@@ -2,7 +2,6 @@ require 'yaml'
 require File.join(File.dirname(__FILE__), "helper")
 require 'app'
 
-
 class AppService
   
   attr_reader :apps
@@ -18,8 +17,9 @@ class AppService
   def AppService.load_from_file(root_dir)
     apps= []
     
-    apps_file = YAML.load_file app_file("#{root_dir}/meta/apps.yaml")
-    apps_file["apps"].each do |slug, value|
+    appmeta = AppMetadata.new app_file("#{root_dir}/meta/apps.yaml")
+    appmeta.app_repos.each do |app_meta|
+      slug = app_meta.slug
       app_dir = app_file("#{root_dir}/repos/#{slug}")
       if File.directory? app_dir
         app = load_app_from_dir(app_dir, slug)

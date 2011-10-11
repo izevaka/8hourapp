@@ -4,13 +4,16 @@ require File.join($this_dir, '..', 'app_service')
 require 'fileutils'
 
 describe AppService do
-  if File.directory?(File.join($this_dir, '../test/data'))
-    FileUtils.rm_r File.join($this_dir, '../test/data')
+
+  before(:all) do
+    if File.directory?(File.join($this_dir, '../test/data'))
+      FileUtils.rm_r File.join($this_dir, '../test/data')
+    end
+    FileUtils.cp_r File.join($this_dir, '../test/app_service_data'), File.join($this_dir, '../test/data')
   end
-  FileUtils.cp_r File.join($this_dir, '../test/app_service_data'), File.join($this_dir, '../test/data')
   
   context 'With own data' do
-    app_service = AppService.new [App.new('first', 'first'), App.new('second', 'second')] 
+    let (:app_service) { AppService.new [App.new('first', 'first'), App.new('second', 'second')]}
     it 'apps should be non empty' do
       app_service.apps.should_not be_nil
     end

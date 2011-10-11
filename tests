@@ -1,1 +1,1 @@
-rspec spec/8hourapp_spec.rb spec/app_spec.rb
+rspec spec/*.rb
