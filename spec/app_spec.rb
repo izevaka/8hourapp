@@ -24,7 +24,7 @@ describe AppService do
     end
   end
   context 'With loading file data' do
-    app_service = AppService.load_from_file 'test/data'
+    let (:app_service) { AppService.load_from_file File.join($this_dir, '../test/data')}
     
     it 'should contain two apps from the file' do
       app_service.get("app1").slug.should == "app1"

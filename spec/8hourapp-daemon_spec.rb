@@ -35,7 +35,7 @@ describe GitRepo do
       
     it 'should change from out of date to up to date after update' do
       outofdate_repo.should_not be_up_to_date
-      outofdate_repo.update
+      outofdate_repo.update!
       outofdate_repo.should be_up_to_date
     end
   end

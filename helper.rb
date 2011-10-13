@@ -10,7 +10,6 @@ def app_dir
   File.dirname(__FILE__)
 end
 
-
-def app_file(file)
-  File.join(app_dir, file)
+def relative(path)
+  File.join(File.dirname(caller[0]), path)
 end
