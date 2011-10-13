@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby -rubygems
 #daemon runner
 require 'daemons'
 require File.join(File.dirname(__FILE__), "helper")

@@ -1,1 +1,0 @@
-Uplifting messages R Us

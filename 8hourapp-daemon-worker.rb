@@ -1,7 +1,9 @@
 #checks main repository and keeps the app repositories up to date
+require File.join(File.dirname(__FILE__), "helper")
 require 'yaml'
 require 'logger'
-require 'gitrepo'
+require_relative 'gitrepo'
+require_relative 'app_metadata'
 
 $Logger = Logger.new '/Users/izevaka/src/8hourapp/log/daemon.log', 'daily'
 $Logger.level = Logger::DEBUG
@@ -14,7 +16,7 @@ class AppDaemon
     @do_loop = do_loop
     @apps_root = apps_root
 
-    @app_meta = AppMetada.new "#{apps_root}/meta/apps.yaml"
+    @app_meta = AppMetadata.new "#{apps_root}/meta/apps.yaml"
     update_apps
   end
 
@@ -42,10 +44,20 @@ private
      @app_meta.app_repos.each do |app|
       repo_path = "#{@apps_root}/repos/#{app.slug}"
       if !File.file? repo_path
-        FileUtils.chdir "#{@apps_root}/repos"
-        `git clone #{@app.repo} #{@app.slug}`
+        begin
+          FileUtils.chdir "#{@apps_root}/repos"
+          `git clone #{@app.repo} #{@app.slug}`
+          @app_repos.push GitRepo.new(repo_path)
+        rescue
+          $logger.warn "Could not clone repository #{app.repo}"
+        end
+      elsif
+        begin 
+          @app_repos.push GitRepo.new(repo_path)
+        rescue :InvalidRepoError
+          $logger.info "repository in #{repo_path} is invalid"
+        end
       end
-      @app_repos.push GitRepo.new(repo_path)
     end
   end
 end
