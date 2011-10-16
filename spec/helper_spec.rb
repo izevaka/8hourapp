@@ -3,6 +3,6 @@ require File.join($this_dir, "../helper")
 
 describe "Helper" do
   it 'should resolve relative path' do
-    relative("me").should == "#{$this_dir}/me"
+    relative("me").should == "#{File.expand_path($this_dir)}/me"
   end
 end

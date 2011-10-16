@@ -6,10 +6,10 @@ unless Kernel.respond_to?(:require_relative)
   end
 end
 
-def app_dir
-  File.dirname(__FILE__)
+def app_dir(path)
+  return File.join(File.dirname(__FILE__), path)
 end
 
 def relative(path)
-  File.join(File.dirname(caller[0]), path)
+  File.join(File.expand_path(File.dirname(caller[0])), path)
 end

@@ -2,11 +2,16 @@
 require File.join(File.dirname(__FILE__), "helper")
 require 'yaml'
 require 'logger'
+require 'fileutils'
 require_relative 'gitrepo'
 require_relative 'app_metadata'
 
-$Logger = Logger.new '/Users/izevaka/src/8hourapp/log/daemon.log', 'daily'
-$Logger.level = Logger::DEBUG
+$logger = Logger.new '/Users/izevaka/src/8hourapp/log/daemon.log', 'daily'
+$logger.level = Logger::DEBUG
+
+def logger
+  $logger
+end
 
 class InvalidRepoError < Exception
 end
@@ -17,45 +22,50 @@ class AppDaemon
     @apps_root = apps_root
 
     @app_meta = AppMetadata.new "#{apps_root}/meta/apps.yaml"
-    update_apps
+    refresh_apps
   end
 
   def run
     logger.info "Starting app daemon #{@do_loop ? "with " : "without "} looping"
-    if do_loop
+    if @do_loop
       loop do
-        process_repos
+        update_apps
+        sleep(5)
       end
     elsif
-      process_repos
-    end
-  end
-private
-  def process_repos 
-    
-    if !@app_meta.up_to_date?
-      @app_meta.update!
       update_apps
     end
   end
-  
+private
   def update_apps
-    @app_repos = []
+    @app_meta.check_updates!
+    @app_repos.each do |app|
+      app.update!
+    end
+  end
+
+  def process_repos 
+    @app_meta.check_updates!
+    refresh_apps
+  end
+  
+  def refresh_apps
+     @app_repos = []
      @app_meta.app_repos.each do |app|
       repo_path = "#{@apps_root}/repos/#{app.slug}"
-      if !File.file? repo_path
+      if !File.directory? repo_path
         begin
           FileUtils.chdir "#{@apps_root}/repos"
-          `git clone #{@app.repo} #{@app.slug}`
+          `git clone #{app.repo_path} #{app.slug}`
           @app_repos.push GitRepo.new(repo_path)
         rescue
-          $logger.warn "Could not clone repository #{app.repo}"
+          logger.error "Could not clone repository #{app.repo_path}. #{$!}"
         end
       elsif
         begin 
           @app_repos.push GitRepo.new(repo_path)
         rescue :InvalidRepoError
-          $logger.info "repository in #{repo_path} is invalid"
+          logger.info "repository in #{repo_path} is invalid"
         end
       end
     end
