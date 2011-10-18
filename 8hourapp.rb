@@ -12,7 +12,12 @@ def appservice
   $appservice
 end
 
+before do
+  expires 30, :public, :must_revalidate
+end
+
 get '/' do
+  puts "rendering home"
   haml :home, :locals =>{ :apps => appservice.apps }, :format => :html5
 end
 

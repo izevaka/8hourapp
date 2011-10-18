@@ -6,13 +6,13 @@ require 'fileutils'
 require_relative 'gitrepo'
 require_relative 'app_metadata'
 
+
 $logger = Logger.new '/Users/izevaka/src/8hourapp/log/daemon.log', 'daily'
 $logger.level = Logger::DEBUG
 
 def logger
   $logger
 end
-
 class InvalidRepoError < Exception
 end
 
@@ -44,11 +44,6 @@ private
     end
   end
 
-  def process_repos 
-    @app_meta.check_updates!
-    refresh_apps
-  end
-  
   def refresh_apps
      @app_repos = []
      @app_meta.app_repos.each do |app|

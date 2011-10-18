@@ -19,8 +19,7 @@ class AppMetadata
   end
   
   def check_updates!
-   if !@meta_repo.up_to_date?
-     @meta_repo.update!
+   if @meta_repo.update!
      reload!
    end
   end
