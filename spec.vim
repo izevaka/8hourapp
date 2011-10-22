@@ -30,7 +30,7 @@ set shortmess=aoO
 badd +1 spec/8hourapp_spec.rb
 badd +1 spec/app_spec.rb
 badd +1 spec/8hourapp-daemon_spec.rb
-badd +0 spec/app_metadata_spec.rb
+badd +1 spec/app_metadata_spec.rb
 args spec/8hourapp_spec.rb spec/app_spec.rb
 edit spec/8hourapp_spec.rb
 set splitbelow splitright
@@ -141,12 +141,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 12 - ((0 * winheight(0) + 25) / 51)
+let s:l = 23 - ((22 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-12
-normal! 04l
+23
+normal! 012l
 tabedit spec/8hourapp-daemon_spec.rb
 set splitbelow splitright
 set nosplitbelow
@@ -257,11 +257,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 16 - ((15 * winheight(0) + 25) / 50)
+let s:l = 15 - ((14 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-16
+15
 normal! 0
 tabedit spec/app_metadata_spec.rb
 set splitbelow splitright
@@ -373,11 +373,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 25) / 50)
+let s:l = 24 - ((23 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+24
 normal! 0
 tabedit spec/app_spec.rb
 set splitbelow splitright
@@ -387,6 +387,7 @@ wincmd t
 set winheight=1 winwidth=1
 argglobal
 2argu
+edit spec/app_spec.rb
 setlocal autoindent
 setlocal nobinary
 setlocal bufhidden=
@@ -489,13 +490,13 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 36 - ((35 * winheight(0) + 25) / 50)
+let s:l = 63 - ((39 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-36
-normal! 06l
-tabnext 3
+63
+normal! 017l
+tabnext 1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif

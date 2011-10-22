@@ -25,3 +25,8 @@ get '/apps/:slug' do |slug|
   app = appservice.get(slug)
   haml :app, :locals => {:app => app}, :format => :html5
 end
+
+get '/devs/:slug' do |slug|
+  app = appservice.get_dev(slug)
+  haml :dev, :locals => {:app => app}, :format => :html5
+end

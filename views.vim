@@ -28,8 +28,9 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +1 views/app.haml
-badd +0 views/home.haml
-badd +0 views/layout.haml
+badd +1 views/home.haml
+badd +1 views/layout.haml
+badd +1 views/dev.haml
 args views/app.haml views/home.haml views/layout.haml
 edit views/app.haml
 set splitbelow splitright
@@ -140,12 +141,128 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 2 - ((1 * winheight(0) + 25) / 50)
+let s:l = 1 - ((0 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-2
-normal! 02l
+1
+normal! 0
+tabedit views/dev.haml
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+edit views/dev.haml
+setlocal autoindent
+setlocal nobinary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal comments=:#
+setlocal commentstring=-#\ %s
+setlocal complete=.,w,b,u,t,i
+setlocal completefunc=
+setlocal nocopyindent
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'haml'
+setlocal filetype=haml
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=^\\s*\\<\\(load\\|w*require\\)\\>
+setlocal includeexpr=substitute(substitute(v:fname,'::','/','g'),'$','.rb','')
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=ri
+setlocal nolinebreak
+setlocal nolisp
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:],<:>
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+setlocal nonumber
+setlocal numberwidth=4
+setlocal omnifunc=htmlcomplete#CompleteTags
+setlocal path=.,NOTE:\ Gem.all_load_paths\ is\ deprecated\ with\ no\ replacement.\ It\ will\ be\ removed\ on\ or\ after\ 2011-10-01.\
+Gem.all_load_paths\ called\ from\ -e:1.\
+NOTE:\ Gem.all_partials\ is\ deprecated\ with\ no\ replacement.\ It\ will\ be\ removed\ on\ or\ after\ 2011-10-01.\
+Gem.all_partials\ called\ from\ /Library/Ruby/Site/1.8/rubygems.rb:258.\
+/Library/Ruby/Site/1.8/rubygems.rb:259:in\ `_deprecated_all_load_paths':\ undefined\ method\ `add'\ for\ \"/Library/Ruby/Gems/1.8\":String\ (NoMethodError)\
+\	from\ /Library/Ruby/Site/1.8/rubygems.rb:427:in\ `each_load_path'\
+\	from\ /Library/Ruby/Site/1.8/rubygems.rb:426:in\ `each'\
+\	from\ /Library/Ruby/Site/1.8/rubygems.rb:426:in\ `each_load_path'\
+\	from\ /Library/Ruby/Site/1.8/rubygems.rb:421:in\ `each'\
+\	from\ /Library/Ruby/Site/1.8/rubygems.rb:421:in\ `each_load_path'\
+\	from\ /Library/Ruby/Site/1.8/rubygems.rb:258:in\ `_deprecated_all_load_paths'\
+\	from\ /Library/Ruby/Site/1.8/rubygems.rb:257:in\ `each'\
+\	from\ /Library/Ruby/Site/1.8/rubygems.rb:257:in\ `_deprecated_all_load_paths'\
+\	from\ /Library/Ruby/Site/1.8/rubygems/deprecate.rb
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal noscrollbind
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal nosmartindent
+setlocal softtabstop=2
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=.rb
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'haml'
+setlocal syntax=haml
+endif
+setlocal tabstop=8
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 25) / 50)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
 tabedit views/home.haml
 set splitbelow splitright
 set nosplitbelow
@@ -378,7 +495,7 @@ exe s:l
 normal! zt
 5
 normal! 04l
-tabnext 1
+tabnext 2
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif

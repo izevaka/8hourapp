@@ -12,13 +12,16 @@ describe '8hourapp App' do
     Sinatra::Application
   end  
  
-  $appservice = AppService.new [
-    App.new('app1', 'desc1', 'app1', "
-### Markdown heading
-This is body of a markdown file      
-    "),
-    App.new('app2', 'desc2')
-  ]
+  $appservice = AppService.new(
+  [
+    ContentDirectory.new('app1', 'desc1', 'app1', "### Markdown heading
+This is body of a markdown file"),
+    ContentDirectory.new('app2', 'desc2')
+  ], 
+  [
+    ContentDirectory.new('dev1', 'desc1', 'dev1', "### Developer"),
+    ContentDirectory.new('dev2', 'desc2')
+  ])
   
   it "root should load main layout and home" do
     get '/'
@@ -31,10 +34,21 @@ This is body of a markdown file
     last_response.body.should include("<a href='apps/app1'")
     last_response.body.should include("<a href='apps/app2'")
   end
+  it "should link to dev slug" do
+    get '/'
+    last_response.body.should include("<a href='devs/dev1'")
+    last_response.body.should include("<a href='devs/dev2'")
+  end
   it "should respond to individual apps" do
     get '/apps/app1'
 
     last_response.body.should include("html")
     last_response.body.should include("<h3>Markdown heading</h3>")
+  end
+  it "should respond to individual devs" do
+    get '/devs/dev1'
+
+    last_response.body.should include("html")
+    last_response.body.should include("<h3>Developer</h3>")
   end
 end
