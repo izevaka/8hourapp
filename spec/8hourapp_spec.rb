@@ -14,15 +14,15 @@ describe '8hourapp App' do
  
   $appservice = AppService.new(
   [
-    ContentDirectory.new('app1', 'desc1', 'app1', "### Markdown heading
-This is body of a markdown file"),
-    ContentDirectory.new('app2', 'desc2')
+    App.new({:slug=>'app1', :description=>'desc1', :name=>'app1', :body=>"### Markdown heading
+This is body of a markdown file", :dev_slug => 'dev1'}),
+    App.new(:slug=>'app2', :name=>'app2', :description=>'desc2', :dev_slug => 'dev2')
   ], 
   [
-    ContentDirectory.new('dev1', 'desc1', 'dev1', "### Developer"),
-    ContentDirectory.new('dev2', 'desc2')
+    Dev.new(:slug=>'dev1', :description=>'desc1', :name=>'dev1', :body=>"### Developer"),
+    Dev.new(:slug=>'dev2', :description=>'desc2')
   ])
-  
+
   it "root should load main layout and home" do
     get '/'
     last_response.should be_ok

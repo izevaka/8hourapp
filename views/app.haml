@@ -1,2 +1,7 @@
 .app_full
-  =markdown app.body
+  -if app.body
+    =markdown app.body
+%p
+  Brought to you by 
+  -if dev 
+    %a{:href =>url("/dev/#{dev.slug}")}

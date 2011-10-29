@@ -1,7 +1,11 @@
 #app_header
   All apps
 #apps
-  - apps.each do |app|
+  - apps.apps.each do |app|
     .app
       %a{:href => "apps/#{app.slug}"}= app.name
       .app_desc= app.description
+      -if app.dev_slug
+        %p
+          Brought to you by 
+          %a{:href => "devs/#{app.dev_slug}"}

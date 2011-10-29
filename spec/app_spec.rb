@@ -14,7 +14,7 @@ describe ContentDirectory do
   
   context 'When creating' do
     it 'should fill name, description and body from directory' do
-      app = ContentDirectory.from_directory File.join(data_dir, 'repos/app1'), 'app1'
+      app = App.from_directory File.join(data_dir, 'repos/app1'), 'app1'
 
       app.name.should == 'Rates Tracker'
       app.slug.should == 'app1'
@@ -22,7 +22,7 @@ describe ContentDirectory do
       app.body.should == "Allows you to track rates.\nFull description\n"
     end
     it 'should load yaml regardless of what the root node is' do
-      dev = ContentDirectory.from_directory File.join(data_dir, 'devs/dev1'), 'dev1'
+      dev = App.from_directory File.join(data_dir, 'devs/dev1'), 'dev1'
       dev.name.should == 'Igor'
     end
   end
@@ -43,8 +43,8 @@ describe AppService do
   
   context 'With own data' do
     let (:app_service) { AppService.new(
-     [ContentDirectory.new('first_app', 'first app'), ContentDirectory.new('second_app', 'second app')],
-     [ContentDirectory.new('first_dev', 'first dev'), ContentDirectory.new('second_dev', 'second dev')]
+     [ContentDirectory.new({:slug=>'first_app', :name=>'first app'}), ContentDirectory.new({:slug=>'second_app', :name=>'second app'})],
+     [ContentDirectory.new({:slug=>'first_dev', :name=>'first dev'}), ContentDirectory.new({:slug=>'second_dev', :name=>'second dev'})]
     )}
     it 'apps should be non empty' do
       app_service.apps.should_not be_nil
@@ -52,11 +52,11 @@ describe AppService do
 
     it 'should find items by slug' do
       second = app_service.get 'second_app'
-      second.description.should == 'second app'
+      second.name.should == 'second app'
     end
     it 'should find devs by slug' do
       second = app_service.get_dev 'second_dev'
-      second.description.should == 'second dev'
+      second.name.should == 'second dev'
     end
     it 'should return nil when cannot find dev' do
       second = app_service.get_dev 'blah'

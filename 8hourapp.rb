@@ -18,15 +18,15 @@ end
 
 get '/' do
   puts "rendering home"
-  haml :home, :locals =>{ :apps => appservice.apps }, :format => :html5
+  haml :home, :locals =>{ :apps => appservice }, :format => :html5
 end
 
 get '/apps/:slug' do |slug|
   app = appservice.get(slug)
-  haml :app, :locals => {:app => app}, :format => :html5
+  haml :app, :locals => {:app => app, :dev => appservice.get_dev(app.dev_slug)}, :format => :html5
 end
 
 get '/devs/:slug' do |slug|
-  app = appservice.get_dev(slug)
-  haml :dev, :locals => {:app => app}, :format => :html5
+  dev = appservice.get_dev(slug)
+  haml :dev, :locals => {:dev => dev}, :format => :html5
 end
