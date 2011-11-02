@@ -13,3 +13,13 @@ end
 def relative(path)
   File.join(File.expand_path(File.dirname(caller[0])), path)
 end
+
+def exec_in(cmd, dir)
+  pwd = Dir.pwd
+  begin
+    Dir.chdir(dir)
+    %x[#{cmd}]
+  ensure
+    Dir.chdir(pwd)
+  end
+end

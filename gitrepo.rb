@@ -7,9 +7,8 @@ class GitRepo
   end
 
   def up_to_date?
-    Dir.chdir @dir
     local_head = get_local_head
-    remote_head = `git ls-remote origin HEAD`.split[0]
+    remote_head = exec_in("git ls-remote origin HEAD", @dir).split[0]
 
     local_head == remote_head
   end
@@ -17,13 +16,11 @@ class GitRepo
     #pull from remote, then compare HEAD SHA1s to see if it's been updated.
     #This way checking for updates and pulling can be done with one server call
     local_head = get_local_head
-    Dir.chdir @dir
-    `git pull origin `
+    exec_in("git pull origin",@dir)
     local_head != get_local_head
   end
 private
   def get_local_head
-    Dir.chdir @dir
-    `git rev-parse HEAD`.strip
+    exec_in("git rev-parse HEAD",@dir).strip
   end
 end

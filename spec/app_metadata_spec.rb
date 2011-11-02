@@ -18,17 +18,19 @@ describe AppMetadata do
     app_meta.app_repos.length.should == 5
   end
   it 'should update apps when meta repo is updated' do
-    Dir.chdir  File.join($this_dir, '../test/data/meta_origin')
-    apps_yaml = File.open("apps.yaml", "a")
+    repo_dir =  File.join($this_dir, '../test/data/meta_origin')
+    apps_yaml = File.open(File.join(repo_dir, "apps.yaml"), "a")
     apps_yaml.write "  app7:\n"
     apps_yaml.write "    repo: blah\n"
     apps_yaml.write "    email: blahf\n"
     apps_yaml.close
 
-    `git add .`
-    `git commit -m"test message"`
+    exec_in('git add .', repo_dir) 
+    exec_in('git commit -m"test message"', repo_dir) 
 
     app_meta.check_updates!
     app_meta.app_repos.length.should == 6
+  end
+  pending 'should load devs from apps.yaml' do
   end
 end
