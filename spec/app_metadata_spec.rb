@@ -31,6 +31,7 @@ describe AppMetadata do
     app_meta.check_updates!
     app_meta.app_repos.length.should == 6
   end
-  pending 'should load devs from apps.yaml' do
+  it 'should load devs from apps.yaml' do
+
   end
 end
