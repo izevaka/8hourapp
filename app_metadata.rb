@@ -10,7 +10,7 @@ class AppRepo
 end
 
 class AppMetadata
-  attr_reader :app_repos, :dev_repos
+  attr_reader :app_repos
   
   def initialize(app_yaml_path)
     @app_yaml_path = app_yaml_path
@@ -26,15 +26,16 @@ class AppMetadata
 
   def reload!
     app_repos = []
-    dev_repos = []
 
     apps_file = YAML.load_file @app_yaml_path
     apps_file["apps"].each do |slug, details|
       app_repos.push AppRepo.new(slug, details["repo"])
-      dev_repos.push AppRepo.new(slug, details["dev_repo"])
+      #dev_config = details["dev"]
+      #if dev_config
+      #  dev_repos.push AppRepo.new(dev_config["slug"], dev_config["repo"])
+      #end
     end
     @app_repos = app_repos
-    @dev_repos = dev_repos
   end
 end
 

@@ -23,6 +23,7 @@ end
 
 get '/apps/:slug' do |slug|
   app = appservice.get(slug)
+  puts app.inspect
   haml :app, :locals => {:app => app, :dev => appservice.get_dev(app.dev_slug)}, :format => :html5
 end
 

@@ -9,7 +9,7 @@ class AppService
   
   def initialize(apps=nil, devs=nil)
     @apps = apps
-    @devs = devs
+    @devs = devs || []
   end
 
   def get(slug)
@@ -24,19 +24,17 @@ class AppService
     
     app_meta = AppMetadata.new "#{root_dir}/meta/apps.yaml"
     
-    apps = AppService.load_content_dir root_dir,app_meta.app_repos, "repos"
-    #devs = AppService.load_content_dir root_dir,app_meta.dev_repos, "devs"
-    devs = []
-    AppService.new apps, devs
+    apps = self.load_content_dir root_dir,app_meta.app_repos
+    AppService.new apps
   end
 
 private
-  def AppService.load_content_dir(root_dir, repo_list, dir_name)
+  def AppService.load_content_dir(root_dir, repo_list)
     apps= []
     
     repo_list.each do |app_meta|
       slug = app_meta.slug
-      app_dir = "#{root_dir}/#{dir_name}/#{slug}"
+      app_dir = "#{root_dir}/repos/#{slug}"
       if File.directory? app_dir
         app = App.from_directory(app_dir, slug)
         if app

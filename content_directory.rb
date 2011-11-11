@@ -28,7 +28,7 @@ class ContentDirectory
   end
 protected
   
-  def init
+  def init(yaml)
   end
 
   def self.create_from_directory(dir, slug, theClass)
