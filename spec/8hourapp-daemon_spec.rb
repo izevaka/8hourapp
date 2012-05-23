@@ -5,7 +5,7 @@ require 'rspec'
 require 'fileutils'
 require File.join($this_dir, '..', 'helper')
 require_relative '../8hourapp-daemon-worker'
-
+puts $this_dir
 
 describe GitRepo do
   let (:uptodate_repo) { GitRepo.new File.join($this_dir, '../test/data/up_to_date_repo') }

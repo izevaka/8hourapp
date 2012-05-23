@@ -1,7 +1,7 @@
 require "rubygems"
 require "bundler/setup"
 #checks main repository and keeps the app repositories up to date
-$this_dir = File.dirname(__FILE__)
+this_dir = File.dirname(__FILE__)
 require File.join(File.dirname(__FILE__), "helper")
 require 'yaml'
 require 'logger'
@@ -9,8 +9,7 @@ require 'fileutils'
 require_relative 'gitrepo'
 require_relative 'app_metadata'
 
-
-$logger = Logger.new File.join($this_dir, 'log/daemon.log'), 'daily'
+$logger = Logger.new File.join(this_dir, 'log/daemon.log'), 'daily'
 $logger.level = Logger::DEBUG
 
 def logger
