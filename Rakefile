@@ -1,6 +1,7 @@
 require 'rspec/core/rake_task'
 require 'helper'
 require '8hourapp'
+require 'fileutils'
 
 directory 'log'
 directory 'test/git_repo_data'
@@ -35,7 +36,11 @@ task :test_repo_setup do
  sh "git clone #{meta_origin} #{meta}" unless File.directory?(meta)
 end
 
-task :setup => [:submodule_init, :test_repo_setup, :out_of_date] do
+task :setup => [:submodule_init, :test_repo_setup, :out_of_date, :copy_data] do
+end
+
+task :copy_data do
+  FileUtils.cp_r "test/app_service_data", "data" unless File.directory? "data"  
 end
 
 task :run => :setup do
