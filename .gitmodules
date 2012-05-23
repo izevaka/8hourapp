@@ -1,3 +1,6 @@
 [submodule "test/test_repo_origin"]
 	path = test/test_repo_origin
 	url = git@github.com:izevaka/8hourapp-test-repo.git
+[submodule "test/app_service_data/meta_origin"]
+	path = test/app_service_data/meta_origin
+	url = git@github.com:izevaka/8hourapp-meta.git
