@@ -17,7 +17,7 @@ describe AppMetadata do
   let(:app_meta) { AppMetadata.new File.join($this_dir, '../test/data/meta/apps.yaml') }
   
   it 'should load apps_from_yaml' do
-    app_meta.app_repos.length.should == 5
+    app_meta.app_repos.length.should == 6
   end
   it 'should update apps when meta repo is updated' do
     repo_dir =  File.join($this_dir, '../test/data/meta_origin')

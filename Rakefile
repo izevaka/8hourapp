@@ -4,6 +4,8 @@ require 'helper'
 directory 'log'
 directory 'test/git_repo_data'
 
+this_dir = File.dirname(__FILE__)
+
 desc "Run specs" => :setup
 RSpec::Core::RakeTask.new(:spec=>['log', :setup])  do |t|
   t.pattern = "./spec/*.rb" 
@@ -16,22 +18,21 @@ task :submodule_init => 'test/git_repo_data' do
 end
 
 task :out_of_date do
- this_dir = File.dirname(__FILE__)
  outofdate = File.join(this_dir, "test/git_repo_data/out_of_date_repo")
  exec_in("git reset --hard master^", outofdate) 
 end
 
 task :test_repo_setup do
- this_dir = File.dirname(__FILE__)
  test_repo_origin = File.join(this_dir, "test/test_repo_origin")
  uptodate = File.join(this_dir, "test/git_repo_data/up_to_date_repo")
  outofdate = File.join(this_dir, "test/git_repo_data/out_of_date_repo")
+ meta_origin = File.join(this_dir, "test/data/meta_origin")
+ meta = File.join(this_dir, "test/app_service_data/meta")
  
  sh "git clone #{test_repo_origin} #{uptodate}" unless File.directory?(uptodate) 
  sh "git clone #{test_repo_origin} #{outofdate}" unless File.directory?(outofdate)
-
+ sh "git clone #{meta_origin} #{meta}" unless File.directory?(meta)
 end
-
 
 task :setup => [:submodule_init, :test_repo_setup, :out_of_date] do
 end

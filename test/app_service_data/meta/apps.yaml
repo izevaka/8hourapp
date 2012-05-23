@@ -2,9 +2,13 @@ apps:
   app1:
     repo: /path_to_repo
     email: izevaka@gmail.com
+    dev:
+      slug: igor
   app2:
     repo: /path_to_repo
     email: izevaka@gmail.com
+    dev:
+      slug: igor2
   app3:
     repo: non-existant repo
     email: foo@bar.baz
@@ -14,3 +18,6 @@ apps:
   app_no_files:
     repo: sdfsdfs
     email: sdfsdf
+  app7:
+    repo: blah
+    email: blahf
