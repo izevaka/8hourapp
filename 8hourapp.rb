@@ -1,6 +1,6 @@
+#!/usr/bin/env ruby
 require "rubygems"
 require "bundler/setup"
-#!/usr/bin/env ruby
 require 'sinatra'
 require 'haml'
 require 'redcarpet'

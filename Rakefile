@@ -1,5 +1,6 @@
 require 'rspec/core/rake_task'
 require 'helper'
+require '8hourapp'
 
 directory 'log'
 directory 'test/git_repo_data'
@@ -35,5 +36,9 @@ task :test_repo_setup do
 end
 
 task :setup => [:submodule_init, :test_repo_setup, :out_of_date] do
+end
+
+task :run => :setup do
+  run Sinatra::Application.run!
 end
 
