@@ -7,4 +7,5 @@ gem "sinatra"
 gem "haml"
 gem "redcarpet"
 gem "rack-test"
+gem "rcov"
 
