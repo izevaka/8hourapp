@@ -1,3 +1,5 @@
+require "rubygems"
+require "bundler/setup"
 $this_dir = File.dirname(__FILE__)
 require 'rspec'
 require File.join($this_dir, '..', 'helper')

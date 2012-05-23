@@ -1,3 +1,5 @@
+require "rubygems"
+require "bundler/setup"
 require 'yaml'
 require File.join(File.dirname(__FILE__), "helper")
 require 'content_directory'

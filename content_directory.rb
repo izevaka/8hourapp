@@ -1,3 +1,5 @@
+require "rubygems"
+require "bundler/setup"
 class ContentDirectory
 
   attr_reader :name, :description, :slug, :body

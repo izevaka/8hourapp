@@ -1,3 +1,5 @@
+require "rubygems"
+require "bundler/setup"
 #!/usr/bin/env ruby -rubygems
 #daemon runner
 require 'daemons'

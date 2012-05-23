@@ -1,3 +1,5 @@
+require "rubygems"
+require "bundler/setup"
 $this_dir = File.dirname(__FILE__)
 $this_dir_absolute = File.expand_path($this_dir)
 require File.join($this_dir, "../helper")

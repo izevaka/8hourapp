@@ -1,3 +1,5 @@
+require "rubygems"
+require "bundler/setup"
 #checks main repository and keeps the app repositories up to date
 $this_dir = File.dirname(__FILE__)
 require File.join(File.dirname(__FILE__), "helper")

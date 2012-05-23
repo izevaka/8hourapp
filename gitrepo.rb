@@ -1,3 +1,5 @@
+require "rubygems"
+require "bundler/setup"
 class GitRepo
   def initialize(dir)
     @dir = dir
