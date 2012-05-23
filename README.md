@@ -12,7 +12,13 @@ Clone this repository and install dependencies:
 
     bundle exec rake spec
 
- ### Running the app
+### Running the app
 
     bundle exec rake run
+
+### Other rake tasks
+
+List all available rake tasks by running this command:
+
+    bundle exec rake -T
 
