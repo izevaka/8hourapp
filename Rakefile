@@ -1,28 +1,27 @@
 require 'rspec/core/rake_task'
 require 'helper'
 require '8hourapp'
-require 'fileutils'
 
 directory 'log'
 directory 'test/git_repo_data'
+directory 'coverage_report'
 
-
-this_dir = File.dirname(__FILE__)
+this_dir =  Rake.application.original_dir
+test_repo_origin = File.join(this_dir, "test/test_repo_origin")
+meta_origin = File.join(this_dir, "test/data/meta_origin")
 
 desc "Run tests"
-RSpec::Core::RakeTask.new(:spec => ['log', :setup])  do |t|
+RSpec::Core::RakeTask.new(:spec => [:setup])  do |t|
   t.pattern = "./spec/*.rb" 
 end
 
 desc "Run coverage"
-RSpec::Core::RakeTask.new(:coverage => ['log', :setup])  do |t|
-  
-  Dir.mkdir "coverage" unless File.directory? "coverage"
-
+RSpec::Core::RakeTask.new(:coverage => [:setup, "coverage_report"])  do |t|
   rcov_options = %w{
-  	    --exclude osx\/objc,gems\/,spec\/,features\/,seeds\/
-	    --aggregate coverage/coverage.data
+  	   --exclude osx\/objc,gems\/,spec\/,features\/,seeds\/
+	    --aggregate coverage_report/coverage.data
 	    --text-report
+      --output coverage_report
 	  }
 
   t.pattern = "./spec/*.rb" 
@@ -34,33 +33,40 @@ task :submodule_init => 'test/git_repo_data' do
  sh "git submodule update --init" 
 end
 
-task :out_of_date do
- outofdate = File.join(this_dir, "test/git_repo_data/out_of_date_repo")
- exec_in("git reset --hard origin/master^", outofdate) 
+task :out_of_date => "test/git_repo_data/out_of_date_repo" do |t|
+ exec_in("git reset --hard origin/master^", t.prerequisites.first) 
 end
 
-task :test_repo_setup do
- test_repo_origin = File.join(this_dir, "test/test_repo_origin")
- uptodate = File.join(this_dir, "test/git_repo_data/up_to_date_repo")
- outofdate = File.join(this_dir, "test/git_repo_data/out_of_date_repo")
- meta_origin = File.join(this_dir, "test/data/meta_origin")
- meta = File.join(this_dir, "test/app_service_data/meta")
- 
- sh "git clone #{test_repo_origin} #{uptodate}" unless File.directory?(uptodate) 
- sh "git clone #{test_repo_origin} #{outofdate}" unless File.directory?(outofdate)
- sh "git clone #{meta_origin} #{meta}" unless File.directory?(meta)
+file "test/git_repo_data/up_to_date_repo" do |t|
+  git_clone  test_repo_origin, t.name
 end
+
+file "test/git_repo_data/out_of_date_repo" do |t|
+  git_clone  test_repo_origin, t.name
+end
+
+file "test/app_service_data/meta" do |t|
+  git_clone  test_origin, t.name
+end
+
 
 desc "Set up development environment"
-task :setup => [:submodule_init, :test_repo_setup, :out_of_date, :copy_data] do
+task :setup => [:submodule_init, "test/git_repo_data/up_to_date_repo", :out_of_date, "test/app_service_data/meta", "log"] do
 end
 
-task :copy_data do
-  FileUtils.cp_r "test/app_service_data", "data" unless File.directory? "data"  
+file "data" do
+  cp_r "test/app_service_data", "data"
 end
+
+rule 
 
 desc "Runs 8hourapp application"
-task :run => :setup do
+task :run => [:setup, "data"] do
   run Sinatra::Application.run!
+end
+
+
+def git_clone(source, dest)
+  sh "git clone #{source} #{dest}" 
 end
 
